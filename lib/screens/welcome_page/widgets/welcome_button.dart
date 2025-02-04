@@ -4,7 +4,7 @@ Widget welcomeButton(context){
   return SizedBox(
   width: MediaQuery.of(context).size.width * .65,
   child: FilledButton(
-    onPressed: () {},
+    onPressed: () {  Navigator.pushNamed(context, "/home");},
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
