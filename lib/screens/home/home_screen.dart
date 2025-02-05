@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/screens/home/widgets/custom_app_bar.dart';
+import 'package:todo_app/screens/home/widgets/summary_dashboard.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,9 +10,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: customAppBar(context),
-      body: const Center(
-        child: Text("Home"),
-      ),
+      body: summaryDashboard(context)
     );
   }
 }
