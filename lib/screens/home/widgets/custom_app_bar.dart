@@ -3,7 +3,7 @@ import 'package:todo_app/screens/home/widgets/notification_button.dart';
 import 'package:todo_app/screens/home/widgets/profile_avatar.dart';
 import 'package:todo_app/screens/home/widgets/user_name.dart';
 
- AppBar customAppBar(context) {
+AppBar customAppBar(context) {
   return AppBar(
     toolbarHeight: MediaQuery.of(context).size.height * .1,
     automaticallyImplyLeading: false,
