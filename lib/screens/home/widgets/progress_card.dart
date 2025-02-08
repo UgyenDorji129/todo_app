@@ -14,7 +14,12 @@ Widget progressCard(
     width: MediaQuery.of(context).size.width * 0.5,
     height: MediaQuery.of(context).size.height * 0.16,
     decoration: BoxDecoration(
-        color: cardColor, borderRadius: BorderRadius.circular(20)),
+        color: cardColor, borderRadius: BorderRadius.circular(20),boxShadow: [
+          BoxShadow(
+              color: const Color.fromARGB(174, 203, 199, 199),
+              spreadRadius: 0.001,
+              blurRadius: 0.015)
+        ]),
     padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/screens/home/home_screen.dart';
 import 'package:todo_app/screens/welcome_page/welcome_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo_app/screens/wrapper_screen/wrapper_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       initialRoute: "/",
       routes: {
         '/': (context) => const WelcomeScreen(),
-        '/home': (context) => const HomeScreen()
+        '/home': (context) => const WrapperScreen()
       },
     );
   }
