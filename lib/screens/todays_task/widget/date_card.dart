@@ -8,7 +8,9 @@ Widget dateCard({context, dateItem}) {
     margin: EdgeInsets.only(top: 2.5, right: 10, bottom: 2.5, left: 0.6),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
-        color: dateItem["is_today"]? Color.fromARGB(225, 101, 56, 233):Colors.white,
+        color: dateItem["is_today"]
+            ? Color.fromARGB(225, 101, 56, 233)
+            : Colors.white,
         boxShadow: [
           BoxShadow(
               color: const Color.fromARGB(173, 160, 157, 157),
@@ -21,9 +23,19 @@ Widget dateCard({context, dateItem}) {
       children: [
         Text(
           dateItem["month"],
+          style: TextStyle(
+              color: dateItem["is_today"] ? Colors.white : Colors.black),
         ),
-        Text('${dateItem["date"].toStringAsFixed(0)}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
-        Text(dateItem["day"])
+        Text('${dateItem["date"].toStringAsFixed(0)}',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: dateItem["is_today"] ? Colors.white : Colors.black)),
+        Text(
+          dateItem["day"],
+          style: TextStyle(
+              color: dateItem["is_today"] ? Colors.white : Colors.black),
+        )
       ],
     ),
   );
