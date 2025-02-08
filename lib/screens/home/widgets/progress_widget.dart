@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 Widget progressWidget(
-    {context, width, height, axisColor, pointColor, value, fontSize}) {
+    {context, width, height, axisColor, pointColor, value, fontSize, fontColor}) {
   return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
     SizedBox(
       height: MediaQuery.of(context).size.width * height,
@@ -36,7 +36,7 @@ Widget progressWidget(
                 widget: Text(
                   '${value.toStringAsFixed(0)}%',
                   style: TextStyle(
-                      fontSize: fontSize, fontWeight: FontWeight.bold),
+                      fontSize: fontSize, fontWeight: FontWeight.bold, color: fontColor),
                 ))
           ],
         ),

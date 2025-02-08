@@ -6,7 +6,8 @@ Widget welcomeText({required String title, required double lineHeight, required 
             style: TextStyle(
               fontSize: fontSize,
               height: lineHeight,
-              fontWeight:  FontWeight.bold
+              fontWeight:  FontWeight.w600,
+              color: Color.fromARGB(255, 36, 37, 44)
             ),
             textAlign: TextAlign.center,
           ) : Text(
@@ -14,6 +15,7 @@ Widget welcomeText({required String title, required double lineHeight, required 
             style: TextStyle(
               fontSize: fontSize,
               height: lineHeight,
+              color: Color.fromARGB(255,110, 106, 124)
             ),
             textAlign: TextAlign.center,
           );
