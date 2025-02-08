@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/screens/home/widgets/custom_icon.dart';
+import 'package:todo_app/global_widget/custom_icon.dart';
 import 'package:todo_app/screens/home/widgets/progress_widget.dart';
 
 Widget taskCard(
@@ -9,8 +9,15 @@ Widget taskCard(
     height: MediaQuery.of(context).size.height * 0.095,
     padding: EdgeInsets.all(10),
     margin: EdgeInsets.only(bottom: 12),
-    decoration:
-        BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(20)),
+    decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+              color: const Color.fromARGB(174, 203, 199, 199),
+              spreadRadius: 0.001,
+              blurRadius: 0.015)
+        ]),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

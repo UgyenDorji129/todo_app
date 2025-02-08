@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/screens/home/widgets/custom_icon.dart';
+import 'package:todo_app/global_widget/custom_icon.dart';
 import 'package:todo_app/screens/home/widgets/progress_widget.dart';
 
 

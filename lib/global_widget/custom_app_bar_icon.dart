@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-Widget notificationsButton() {
+Widget customAppBarIcon(icon){
   return IconButton(
-    icon: const Icon(Icons.notifications_active),
+    icon: Icon(icon),
     tooltip: 'Comment Icon',
     onPressed: () {},
   );
