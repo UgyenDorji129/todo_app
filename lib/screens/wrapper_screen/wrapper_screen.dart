@@ -17,8 +17,18 @@ class WrapperScreen extends StatefulWidget {
 }
 
 class _WrapperScreenState extends State<WrapperScreen> {
-  final screenList = [const HomeScreen(), const TodaysTask(), const AddTask(), const Profile()];
-  final appBarList = [homeAppBar, todaysTaskAppBar, addTaskAppBar, todaysTaskAppBar];
+  final screenList = [
+    const HomeScreen(),
+    const TodaysTask(),
+    const AddTask(),
+    const Profile()
+  ];
+  final appBarList = [
+    homeAppBar,
+    todaysTaskAppBar,
+    addTaskAppBar,
+    todaysTaskAppBar
+  ];
   int currentIndex = 0;
 
   void switchTab(int index) {
@@ -30,6 +40,7 @@ class _WrapperScreenState extends State<WrapperScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: appBarList[currentIndex](context),
       floatingActionButton: customFloatingActionButton(),

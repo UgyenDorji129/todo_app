@@ -85,7 +85,9 @@ class _AddTaskState extends State<AddTask> {
               },
             ),
             addTaskButton(context),
-            SizedBox(height: 10,)
+            SizedBox(
+              height: 10,
+            )
           ],
         ),
       ),
