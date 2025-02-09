@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/screens/add_task/add_task.dart';
+import 'package:todo_app/screens/add_task/widgets/add_task_appbar.dart';
 import 'package:todo_app/screens/home/home_screen.dart';
 import 'package:todo_app/screens/home/widgets/home_app_bar.dart';
 import 'package:todo_app/screens/profile/profile.dart';
@@ -16,7 +17,8 @@ class WrapperScreen extends StatefulWidget {
 }
 
 class _WrapperScreenState extends State<WrapperScreen> {
-  final screenList = [const HomeScreen(), const TodaysTask(), const AddTask(), const Profile()]; // Add const here
+  final screenList = [const HomeScreen(), const TodaysTask(), const AddTask(), const Profile()];
+  final appBarList = [homeAppBar, todaysTaskAppBar, addTaskAppBar, todaysTaskAppBar];
   int currentIndex = 0;
 
   void switchTab(int index) {
@@ -29,7 +31,7 @@ class _WrapperScreenState extends State<WrapperScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      appBar: todaysTaskAppBar(context),
+      appBar: appBarList[currentIndex](context),
       floatingActionButton: customFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: CustomBottomAppBar(

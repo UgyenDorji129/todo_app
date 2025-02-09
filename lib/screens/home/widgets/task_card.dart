@@ -36,7 +36,7 @@ Widget taskCard(
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  '${numOfTask.toStringAsFixed(0)} 23 Tasks',
+                  '${numOfTask.toStringAsFixed(0)} Tasks',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                 )
               ],
