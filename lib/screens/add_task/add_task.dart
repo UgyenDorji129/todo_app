@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/global_widget/custom_icon.dart';
 import 'package:todo_app/screens/add_task/widgets/add_task_botton.dart';
 import 'package:todo_app/screens/add_task/widgets/custom_date_picker.dart';
 import 'package:todo_app/screens/add_task/widgets/custom_input_field.dart';

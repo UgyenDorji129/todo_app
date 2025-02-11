@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget welcomeButton(context) {
+Widget welcomeButton(context, loginUser) {
   return SizedBox(
     width: MediaQuery.of(context).size.width * .65,
     child: FilledButton(
@@ -8,7 +8,7 @@ Widget welcomeButton(context) {
           backgroundColor:
               WidgetStateProperty.all(Color.fromARGB(225, 101, 56, 233))),
       onPressed: () {
-        Navigator.pushNamed(context, "/home");
+        loginUser(context);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
