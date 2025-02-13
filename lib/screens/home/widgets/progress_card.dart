@@ -30,14 +30,14 @@ Widget progressCard(
           children: [
             Text(
               cardTitle,
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color.fromARGB(255,110, 106, 124)),
             ),
             customIcon(icon: icon, color: iconColor, size: 18.0, vertical: 5.0, horizantal: 5.0)
           ],
         ),
         Text(cardDetail,
-            maxLines: 3,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+            maxLines: 2,
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: const Color.fromARGB(175, 0, 0, 0))),
         LinearProgressIndicator(
           borderRadius: BorderRadius.circular(20),
           value: progressIndicatorValue,

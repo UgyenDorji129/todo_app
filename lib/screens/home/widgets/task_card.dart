@@ -33,11 +33,11 @@ Widget taskCard(
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color.fromARGB(175, 0, 0, 0)),
                 ),
                 Text(
                   '${numOfTask.toStringAsFixed(0)} Tasks',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color.fromARGB(255,110, 106, 124)),
                 )
               ],
             )
