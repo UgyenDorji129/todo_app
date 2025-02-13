@@ -3,7 +3,7 @@ import 'package:todo_app/global_widget/custom_icon.dart';
 import 'package:todo_app/screens/home/widgets/progress_widget.dart';
 
 
-Widget summaryDashboard(context) {
+Widget summaryDashboard(context, overAllProgress) {
   return Container(
     width: MediaQuery.of(context).size.width,
     height: MediaQuery.of(context).size.height * 0.16,
@@ -42,7 +42,7 @@ Widget summaryDashboard(context) {
             width: 0.2,
             pointColor: Colors.white,
             axisColor: Color.fromARGB(98, 211, 207, 207),
-            value: 85.0,
+            value: overAllProgress,
             fontColor: Colors.white
             ),
         customIcon(

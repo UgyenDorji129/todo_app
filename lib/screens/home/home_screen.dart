@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/global_widget/loading_widget.dart';
 import 'package:todo_app/screens/home/services/fetch_task.dart';
 import 'package:todo_app/screens/home/widgets/progress_card.dart';
 import 'package:todo_app/screens/home/widgets/sub_title.dart';
@@ -15,6 +16,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var inProgress = [];
   var taskGroup = [];
+  var overAllProgress  = 0.0;
+  bool isLoading = false;
+
 
   Future<void> fetchTaskList() async {
     var response = await FetchTaskService.fetchTasks();
@@ -22,103 +26,24 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
       inProgress = response['progress_tasks'];
       taskGroup = response['task_groups'];
+      overAllProgress = response['overall_progress'];
+      isLoading = false;
     });
     }
-    
   }
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      isLoading = true;
+    });
     fetchTaskList();
   }
 
 
   @override
-  Widget build(BuildContext context) {
-    // var taskGroup = [
-    //   {
-    //     "icon": Icons.business,
-    //     "title": "Office Project",
-    //     "numOfTask": 23,
-    //     "color": Colors.orange[200],
-    //     "bgColor": Colors.greenAccent,
-    //     "progressValue": 78.0,
-    //   },
-    //   {
-    //     "icon": Icons.design_services,
-    //     "title": "App Development",
-    //     "numOfTask": 15,
-    //     "color": Colors.blue[200],
-    //     "bgColor": Colors.blueAccent,
-    //     "progressValue": 65.0,
-    //   },
-    //   {
-    //     "icon": Icons.computer,
-    //     "title": "AI Research",
-    //     "numOfTask": 5,
-    //     "color": Colors.purple[200],
-    //     "bgColor": Colors.pinkAccent,
-    //     "progressValue": 95.0,
-    //   },
-    //   {
-    //     "icon": Icons.web,
-    //     "title": "Website Redesign",
-    //     "numOfTask": 30,
-    //     "color": Colors.teal[200],
-    //     "bgColor": Colors.deepOrangeAccent,
-    //     "progressValue": 45.0,
-    //   },
-    //   {
-    //     "icon": Icons.school,
-    //     "title": "Educational Program",
-    //     "numOfTask": 12,
-    //     "color": Colors.red[200],
-    //     "bgColor": Colors.amberAccent,
-    //     "progressValue": 60.0,
-    //   },
-    //   {
-    //     "icon": Icons.security,
-    //     "title": "Security Improvements",
-    //     "numOfTask": 18,
-    //     "color": Colors.green[200],
-    //     "bgColor": Colors.cyanAccent,
-    //     "progressValue": 85.0,
-    //   },
-    //   {
-    //     "icon": Icons.business_center,
-    //     "title": "Client Consultation",
-    //     "numOfTask": 8,
-    //     "color": Colors.pink[200],
-    //     "bgColor": Colors.indigoAccent,
-    //     "progressValue": 50.0,
-    //   },
-    //   {
-    //     "icon": Icons.chat_bubble,
-    //     "title": "Marketing Campaign",
-    //     "numOfTask": 20,
-    //     "color": Colors.yellow[200],
-    //     "bgColor": Colors.tealAccent,
-    //     "progressValue": 70.0,
-    //   },
-    //   {
-    //     "icon": Icons.cloud,
-    //     "title": "Cloud Migration",
-    //     "numOfTask": 10,
-    //     "color": Colors.lightBlue[200],
-    //     "bgColor": Colors.lightGreenAccent,
-    //     "progressValue": 40.0,
-    //   },
-    //   {
-    //     "icon": Icons.devices,
-    //     "title": "IoT Integration",
-    //     "numOfTask": 6,
-    //     "color": Colors.cyan[200],
-    //     "bgColor": Colors.deepPurpleAccent,
-    //     "progressValue": 80.0,
-    //   }
-    // ];
-    
+  Widget build(BuildContext context) {    
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10), // Optional: rounded corners
@@ -127,17 +52,17 @@ class _HomeScreenState extends State<HomeScreen> {
           fit: BoxFit.cover,
         ),
       ),
-      child: SingleChildScrollView(
+      child: isLoading ? loadingWidget() : SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              summaryDashboard(context),
+              summaryDashboard(context, overAllProgress),
               SizedBox(
                 height: 20,
               ),
-              subTitle("In Progress", "7"),
+              subTitle("In Progress", '${inProgress.length}'),
               SizedBox(
                 height: 20,
               ),
@@ -168,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 20,
               ),
-              subTitle("Task Group", "4"),
+              subTitle("Task Group", '${taskGroup.length}'),
               SizedBox(
                 height: 20,
               ),

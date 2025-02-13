@@ -56,7 +56,7 @@ Widget customTaskCard({context, task}) {
               customIcon(
                   icon: task["icon"],
                   color: const Color.fromARGB(255, 230, 142, 234),
-                  size: 25.0),
+                  size: 15.0, vertical: 3.0, horizantal: 3.0),
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),

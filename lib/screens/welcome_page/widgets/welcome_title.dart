@@ -15,7 +15,8 @@ Widget welcomeText({required String title, required double lineHeight, required 
             style: TextStyle(
               fontSize: fontSize,
               height: lineHeight,
-              color: Color.fromARGB(255,110, 106, 124)
+              color: Color.fromARGB(255,110, 106, 124),
+              letterSpacing: 1.0
             ),
             textAlign: TextAlign.center,
           );

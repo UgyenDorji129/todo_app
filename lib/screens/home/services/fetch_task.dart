@@ -6,40 +6,49 @@ import 'package:http/http.dart' as http;
 import 'package:todo_app/screens/home/models/progress_task_model.dart';
 import 'package:todo_app/screens/home/models/task_group_model.dart';
 
-
-
-
 class FetchTaskService {
   static final List<Map<String, dynamic>> taskCategories = [
-    {"title": "Website Development", "icon": Icons.web},
-    {"title": "Mobile App", "icon": Icons.fitness_center},
-    {"title": "AI Research", "icon": Icons.computer},
-    {"title": "Marketing Campaign", "icon": Icons.assignment},
-    {"title": "Database Optimization", "icon": Icons.lightbulb},
-  ];
-
-  static final List<Color> cardColors = [
-    const Color.fromARGB(28, 251, 173, 226), 
-    const Color.fromARGB(29, 146, 127, 255), 
-    const Color.fromARGB(22, 165, 255, 177), 
-  ];
-
-  static final List<Color> iconColors = [
-    const Color.fromARGB(195, 255, 64, 128),
-    const Color.fromARGB(142, 255, 82, 82),
-    const Color.fromARGB(161, 255, 109, 64),
+    {
+      "title": "Office Project",
+      "icon": Icons.work_history_sharp,
+      "cardColor": Colors.blue[100],
+      "iconColor": Colors.red[400]
+    },
+    {
+      "title": "Personal Project",
+      "icon": Icons.person_pin,
+      "cardColor": Colors.green[100],
+      "iconColor": Colors.pink[400]
+    },
+    {
+      "title": "Group Project",
+      "icon": Icons.group,
+      "cardColor": Colors.purple[100],
+      "iconColor": Colors.green[400]
+    },
+    {
+      "title": "Marketing Project",
+      "icon": Icons.backup_sharp,
+      "cardColor": Colors.teal[100],
+      "iconColor": Colors.purpleAccent[400]
+    },
+    {
+      "title": "Skill Development",
+      "icon": Icons.lightbulb,
+      "cardColor": Colors.indigo[100],
+      "iconColor": Colors.blue[400]
+    },
   ];
 
   static final List<Color> progressIndicatorColors = [
     Colors.green,
-    Colors.orange,
+    Colors.pink,
     Colors.purple,
     Colors.blue,
     Colors.red,
   ];
 
   static final Random _random = Random();
-  
 
   static Color _getDistinctColor(List<Color> choices, {Color? avoidColor}) {
     Color selected;
@@ -49,57 +58,60 @@ class FetchTaskService {
     return selected;
   }
 
+  static Color prevProgressIndicatorColor = _getDistinctColor(progressIndicatorColors);
+
   static Future<Map<String, dynamic>> fetchTasks() async {
     Map<String, dynamic> result;
     Uri url = Uri.parse("https://dummyjson.com/todos/random/10");
-    Color lastSelectedCardColor = _getDistinctColor(cardColors);
-    Color lastSelectedIconColor = _getDistinctColor(cardColors);
 
     try {
       var response = await http.get(url);
       if (response.statusCode == 200) {
         List<dynamic> rawTasks = json.decode(response.body);
 
-        List<TaskCardModel> progressTasks = rawTasks.map((item) {
+        List<TaskCardModel> allTasks = rawTasks.map((item) {
           bool isCompleted = item['completed'];
           double progressValue = isCompleted ? 1.0 : (_random.nextBool() ? 0.75 : 0.4);
 
-          Color cardColor = _getDistinctColor(cardColors, avoidColor: lastSelectedCardColor);
-          Color iconColor = _getDistinctColor(iconColors, avoidColor: lastSelectedIconColor);
-          lastSelectedIconColor = iconColor;
-          lastSelectedCardColor = cardColor;
-          Color progressIndicatorColor = _getDistinctColor(progressIndicatorColors, avoidColor: iconColor);
-
           var selectedCategory = taskCategories[_random.nextInt(taskCategories.length)];
+          Color progressIndicatorColor = _getDistinctColor(progressIndicatorColors, avoidColor: prevProgressIndicatorColor);
+          prevProgressIndicatorColor = progressIndicatorColor;
 
           return TaskCardModel(
             cardTitle: selectedCategory["title"],
             cardDetail: item['todo'].trim(),
-            iconColor: iconColor,
+            iconColor: selectedCategory["iconColor"],
             icon: selectedCategory["icon"],
             progressIndicatorColor: progressIndicatorColor,
             progressIndicatorValue: progressValue,
-            cardColor: cardColor,
+            cardColor: selectedCategory["cardColor"],
           );
         }).toList();
 
+        List<TaskCardModel> progressTasks =
+            allTasks.where((task) => task.progressIndicatorValue > 0.0 && task.progressIndicatorValue < 1.0).toList();
+
+        
+        double totalProgress = allTasks.map((t) => t.progressIndicatorValue).reduce((a, b) => a + b);
+        double overallProgress = (totalProgress / allTasks.length) * 100;
+
+  
         Map<String, List<TaskCardModel>> groupedTasks = {};
-        for (var task in progressTasks) {
+        for (var task in allTasks) {
           groupedTasks.putIfAbsent(task.cardTitle, () => []).add(task);
         }
-        Color lastSelectColor = _getDistinctColor(iconColors);
+
         List<TaskGroupModel> taskGroupsList = groupedTasks.entries.map((entry) {
-          Color color = _getDistinctColor(iconColors, avoidColor: lastSelectColor);
-          lastSelectColor = color;
-          Color bgColor = _getDistinctColor(progressIndicatorColors, avoidColor: color);
+          var category = taskCategories.firstWhere((cat) => cat['title'] == entry.key);
+          Color bgColor = _getDistinctColor(progressIndicatorColors, avoidColor: category['iconColor']);
           int numOfTasks = entry.value.length;
           double progressValue =
               (entry.value.map((t) => t.progressIndicatorValue).reduce((a, b) => a + b) / numOfTasks) * 100;
           return TaskGroupModel(
-            icon: entry.value.first.icon,
+            icon: category['icon'],
             title: entry.key,
             numOfTask: numOfTasks,
-            color: color,
+            color: category['iconColor'],
             bgColor: bgColor,
             progressValue: progressValue,
           );
@@ -109,7 +121,8 @@ class FetchTaskService {
           'status': true,
           'message': 'Successfully Fetched Tasks',
           'progress_tasks': progressTasks.map((task) => task.toJson()).toList(),
-          'task_groups': taskGroupsList.map((group) => group.toJson()).toList()
+          'task_groups': taskGroupsList.map((group) => group.toJson()).toList(),
+          'overall_progress': overallProgress
         };
       } else {
         String message = '${json.decode(response.body)['message']}.';
