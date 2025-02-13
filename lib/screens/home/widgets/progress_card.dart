@@ -23,6 +23,7 @@ Widget progressCard(
     padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -31,10 +32,11 @@ Widget progressCard(
               cardTitle,
               style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
             ),
-            customIcon(icon: icon, color: iconColor, size: 20.0)
+            customIcon(icon: icon, color: iconColor, size: 18.0, vertical: 5.0, horizantal: 5.0)
           ],
         ),
         Text(cardDetail,
+            maxLines: 3,
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
         LinearProgressIndicator(
           borderRadius: BorderRadius.circular(20),

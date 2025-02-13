@@ -46,7 +46,7 @@ Widget summaryDashboard(context) {
             fontColor: Colors.white
             ),
         customIcon(
-            icon: Icons.more_horiz_rounded, color: Colors.white, size: 25.0)
+            icon: Icons.more_horiz_rounded, color: Colors.white, size: 25.0, vertical: 0.05, horizantal: 0.5)
       ],
     ),
   );

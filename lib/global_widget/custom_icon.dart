@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-Widget customIcon({icon, color, size}) {
+Widget customIcon({icon, color, size, vertical, horizantal}) {
   return Container(
-      padding: EdgeInsets.symmetric(vertical: 0.05, horizontal: 0.5),
+      padding: EdgeInsets.symmetric(vertical: vertical, horizontal: horizantal),
       decoration: BoxDecoration(
-          color: const Color.fromARGB(98, 211, 207, 207),
+          color: color.withOpacity(0.2),
           borderRadius: BorderRadius.circular(6)),
       child: GestureDetector(
           onTap: () {},
@@ -14,3 +14,8 @@ Widget customIcon({icon, color, size}) {
             size: size,
           )));
 }
+
+// const Color.fromARGB(98, 211, 207, 207)
+
+
+

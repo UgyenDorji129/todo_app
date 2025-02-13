@@ -23,7 +23,7 @@ Widget taskCard(
       children: [
         Row(
           children: [
-            customIcon(icon: Icons.web, color: color, size: 40.0),
+            customIcon(icon: icon, color: color, size: 25.0, vertical: 5.0, horizantal: 5.0),
             SizedBox(
               width: 10,
             ),
