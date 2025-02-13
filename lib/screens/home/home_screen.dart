@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/global_widget/loading_widget.dart';
 import 'package:todo_app/screens/home/services/fetch_task.dart';
 import 'package:todo_app/screens/home/widgets/progress_card.dart';
 import 'package:todo_app/screens/home/widgets/sub_title.dart';
@@ -16,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   var inProgress = [];
   var taskGroup = [];
   var overAllProgress  = 0.0;
+  bool isLoading = false;
 
 
   Future<void> fetchTaskList() async {
@@ -25,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       inProgress = response['progress_tasks'];
       taskGroup = response['task_groups'];
       overAllProgress = response['overall_progress'];
+      isLoading = false;
     });
     }
   }
@@ -32,6 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      isLoading = true;
+    });
     fetchTaskList();
   }
 
@@ -46,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
           fit: BoxFit.cover,
         ),
       ),
-      child: SingleChildScrollView(
+      child: isLoading ? loadingWidget() : SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
