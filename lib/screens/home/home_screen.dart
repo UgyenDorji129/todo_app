@@ -1,49 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/global_widget/loading_widget.dart';
-import 'package:todo_app/screens/home/services/fetch_task.dart';
 import 'package:todo_app/screens/home/widgets/progress_card.dart';
 import 'package:todo_app/screens/home/widgets/sub_title.dart';
 import 'package:todo_app/screens/home/widgets/summary_dashboard.dart';
 import 'package:todo_app/screens/home/widgets/task_card.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final homeData;
+  const HomeScreen({super.key, this.homeData});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var inProgress = [];
-  var taskGroup = [];
-  var overAllProgress  = 0.0;
-  bool isLoading = false;
-
-
-  Future<void> fetchTaskList() async {
-    var response = await FetchTaskService.fetchTasks();
-    if (response['status']){
-      setState(() {
-      inProgress = response['progress_tasks'];
-      taskGroup = response['task_groups'];
-      overAllProgress = response['overall_progress'];
-      isLoading = false;
-    });
-    }
-  }
-
   @override
-  void initState() {
-    super.initState();
-    setState(() {
-      isLoading = true;
-    });
-    fetchTaskList();
-  }
-
-
-  @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) { 
+    print("Home Created");
+    print(widget.homeData);   
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10), // Optional: rounded corners
@@ -52,17 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
           fit: BoxFit.cover,
         ),
       ),
-      child: isLoading ? loadingWidget() : SingleChildScrollView(
+      child: widget.homeData["isLoading"] ? loadingWidget() : SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.only(left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              summaryDashboard(context, overAllProgress),
+              summaryDashboard(context, widget.homeData["overAllProgress"]),
               SizedBox(
                 height: 20,
               ),
-              subTitle("In Progress", '${inProgress.length}'),
+              subTitle("In Progress", '${widget.homeData["inProgress"].length}'),
               SizedBox(
                 height: 20,
               ),
@@ -70,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    ...inProgress.map((data) {
+                    ...widget.homeData["inProgress"].map((data) {
                       return Padding(
                         padding: EdgeInsets.only(right: 15),
                         child: progressCard(
@@ -93,11 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 20,
               ),
-              subTitle("Task Group", '${taskGroup.length}'),
+              subTitle("Task Group", '${widget.homeData["taskGroup"].length}'),
               SizedBox(
                 height: 20,
               ),
-              ...taskGroup.map((data) {
+              ...widget.homeData["taskGroup"].map((data) {
                 return taskCard(
                   context: context,
                   title: data['title'],

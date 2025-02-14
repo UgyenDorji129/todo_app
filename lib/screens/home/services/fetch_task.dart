@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:todo_app/screens/home/models/progress_task_model.dart';
 import 'package:todo_app/screens/home/models/task_group_model.dart';
 
@@ -63,6 +64,7 @@ class FetchTaskService {
   static Future<Map<String, dynamic>> fetchTasks() async {
     Map<String, dynamic> result;
     Uri url = Uri.parse("https://dummyjson.com/todos/random/10");
+    DateTime today = DateTime.now();
 
     try {
       var response = await http.get(url);
@@ -91,11 +93,9 @@ class FetchTaskService {
         List<TaskCardModel> progressTasks =
             allTasks.where((task) => task.progressIndicatorValue > 0.0 && task.progressIndicatorValue < 1.0).toList();
 
-        
         double totalProgress = allTasks.map((t) => t.progressIndicatorValue).reduce((a, b) => a + b);
         double overallProgress = (totalProgress / allTasks.length) * 100;
 
-  
         Map<String, List<TaskCardModel>> groupedTasks = {};
         for (var task in allTasks) {
           groupedTasks.putIfAbsent(task.cardTitle, () => []).add(task);
@@ -117,12 +117,40 @@ class FetchTaskService {
           );
         }).toList();
 
+        List<Map<String, dynamic>> todaysTasks = [];
+        for (int i = 0; i < 10; i++) {
+          var task = allTasks[_random.nextInt(allTasks.length)];
+          int randomHour = _random.nextInt(12) + 1;
+          int randomMinute = _random.nextInt(60);
+          String period = _random.nextBool() ? "AM" : "PM";
+          String formattedTime = "$randomHour:${randomMinute.toString().padLeft(2, '0')} $period";
+
+          String status;
+          if (i < 3) {
+            status = "Done";
+          } else if (i < 5) {
+            status = "Pending";
+          } else {
+            status = "In Progress";
+          }
+
+          todaysTasks.add({
+            "category": task.cardTitle,
+            "description": task.cardDetail,
+            "icon": task.icon,
+            "status": status,
+            "time": formattedTime,
+            "date": "${today.day}/${today.month}/${today.year}",
+          });
+        }
+
         result = {
           'status': true,
           'message': 'Successfully Fetched Tasks',
           'progress_tasks': progressTasks.map((task) => task.toJson()).toList(),
           'task_groups': taskGroupsList.map((group) => group.toJson()).toList(),
-          'overall_progress': overallProgress
+          'overall_progress': overallProgress,
+          'todays_tasks': todaysTasks,
         };
       } else {
         String message = '${json.decode(response.body)['message']}.';
