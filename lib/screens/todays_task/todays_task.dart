@@ -5,7 +5,8 @@ import 'package:todo_app/screens/todays_task/widget/custom_task_card.dart';
 import 'package:todo_app/screens/todays_task/widget/date_card.dart';
 
 class TodaysTask extends StatefulWidget {
-  const TodaysTask({super.key});
+  final tasks;
+  const TodaysTask({super.key, this.tasks});
 
   @override
   State<TodaysTask> createState() => _TodaysTaskState();
@@ -14,106 +15,106 @@ class TodaysTask extends StatefulWidget {
 class _TodaysTaskState extends State<TodaysTask> {
   var dates = [];
 
-  List<Map<String, dynamic>> tasks = [
-    {
-      "category": "Shopping app Design",
-      "description": "Market Research",
-      "icon": Icons.work,
-      "status": "Done",
-      "time": "12:00 AM"
-    },
-    {
-      "category": "Task Management App",
-      "description": "UI Design",
-      "icon": Icons.design_services,
-      "status": "In Progress",
-      "time": "3:00 PM"
-    },
-    {
-      "category": "E-commerce App",
-      "description": "Backend Setup",
-      "icon": Icons.settings,
-      "status": "To-do",
-      "time": "9:00 AM"
-    },
-    {
-      "category": "Social Media App",
-      "description": "User Authentication",
-      "icon": Icons.security,
-      "status": "Done",
-      "time": "2:00 PM"
-    },
-    {
-      "category": "Fitness App",
-      "description": "Workout Routine Integration",
-      "icon": Icons.fitness_center,
-      "status": "In Progress",
-      "time": "11:00 AM"
-    },
-    {
-      "category": "Weather App",
-      "description": "API Integration",
-      "icon": Icons.cloud,
-      "status": "Done",
-      "time": "4:00 PM"
-    },
-    {
-      "category": "Finance Tracker App",
-      "description": "Budget Calculation Module",
-      "icon": Icons.account_balance_wallet,
-      "status": "To-do",
-      "time": "10:00 AM"
-    },
-    {
-      "category": "Food Delivery App",
-      "description": "Order Tracking System",
-      "icon": Icons.local_dining,
-      "status": "In Progress",
-      "time": "1:30 PM"
-    },
-    {
-      "category": "News App",
-      "description": "News Feed Implementation",
-      "icon": Icons.article,
-      "status": "To-do",
-      "time": "6:00 PM"
-    },
-    {
-      "category": "Education App",
-      "description": "Quiz Feature Integration",
-      "icon": Icons.school,
-      "status": "Done",
-      "time": "8:00 AM"
-    },
-    {
-      "category": "Travel App",
-      "description": "Map Integration",
-      "icon": Icons.map,
-      "status": "In Progress",
-      "time": "5:00 PM"
-    },
-    {
-      "category": "Music App",
-      "description": "Playlist Management",
-      "icon": Icons.music_note,
-      "status": "Done",
-      "time": "7:00 PM"
-    },
-    {
-      "category": "Messaging App",
-      "description": "Push Notifications Setup",
-      "icon": Icons.chat,
-      "status": "In Progress",
-      "time": "12:30 PM"
-    },
-    {
-      "category": "Calendar App",
-      "description": "Event Syncing",
-      "icon": Icons.calendar_today,
-      "status": "To-do",
-      "time": "4:30 PM"
-    }
-  ];
+  // List<Map<String, dynamic>> tasks = [
+  //   {
+  //     "category": "Shopping app Design",
+  //     "description": "Market Research",
+  //     "icon": Icons.work,
+  //     "status": "Done",
+  //     "time": "12:00 AM"
+  //   },
+  //   {
+  //     "category": "Task Management App",
+  //     "description": "UI Design",
+  //     "icon": Icons.design_services,
+  //     "status": "In Progress",
+  //     "time": "3:00 PM"
+  //   },
+  //   {
+  //     "category": "E-commerce App",
+  //     "description": "Backend Setup",
+  //     "icon": Icons.settings,
+  //     "status": "To-do",
+  //     "time": "9:00 AM"
+  //   },
+  //   {
+  //     "category": "Social Media App",
+  //     "description": "User Authentication",
+  //     "icon": Icons.security,
+  //     "status": "Done",
+  //     "time": "2:00 PM"
+  //   },
+  //   {
+  //     "category": "Fitness App",
+  //     "description": "Workout Routine Integration",
+  //     "icon": Icons.fitness_center,
+  //     "status": "In Progress",
+  //     "time": "11:00 AM"
+  //   },
+  //   {
+  //     "category": "Weather App",
+  //     "description": "API Integration",
+  //     "icon": Icons.cloud,
+  //     "status": "Done",
+  //     "time": "4:00 PM"
+  //   },
+  //   {
+  //     "category": "Finance Tracker App",
+  //     "description": "Budget Calculation Module",
+  //     "icon": Icons.account_balance_wallet,
+  //     "status": "To-do",
+  //     "time": "10:00 AM"
+  //   },
+  //   {
+  //     "category": "Food Delivery App",
+  //     "description": "Order Tracking System",
+  //     "icon": Icons.local_dining,
+  //     "status": "In Progress",
+  //     "time": "1:30 PM"
+  //   },
+  //   {
+  //     "category": "News App",
+  //     "description": "News Feed Implementation",
+  //     "icon": Icons.article,
+  //     "status": "To-do",
+  //     "time": "6:00 PM"
+  //   },
+  //   {
+  //     "category": "Education App",
+  //     "description": "Quiz Feature Integration",
+  //     "icon": Icons.school,
+  //     "status": "Done",
+  //     "time": "8:00 AM"
+  //   },
+  //   {
+  //     "category": "Travel App",
+  //     "description": "Map Integration",
+  //     "icon": Icons.map,
+  //     "status": "In Progress",
+  //     "time": "5:00 PM"
+  //   },
+  //   {
+  //     "category": "Music App",
+  //     "description": "Playlist Management",
+  //     "icon": Icons.music_note,
+  //     "status": "Done",
+  //     "time": "7:00 PM"
+  //   },
+  //   {
+  //     "category": "Messaging App",
+  //     "description": "Push Notifications Setup",
+  //     "icon": Icons.chat,
+  //     "status": "In Progress",
+  //     "time": "12:30 PM"
+  //   },
+  //   {
+  //     "category": "Calendar App",
+  //     "description": "Event Syncing",
+  //     "icon": Icons.calendar_today,
+  //     "status": "To-do",
+  //     "time": "4:30 PM"
+  //   }
+  // ];
 
   late ScrollController _scrollController; // Added scroll controller
 
@@ -187,7 +188,7 @@ class _TodaysTaskState extends State<TodaysTask> {
                   ],
                 ),
               ),
-            ...tasks.map((item){
+            ...widget.tasks.map((item){
               return customTaskCard(context: context, task: item);
             })
               

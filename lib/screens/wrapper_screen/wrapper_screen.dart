@@ -25,9 +25,11 @@ class _WrapperScreenState extends State<WrapperScreen> {
     "isLoading": false
   };
 
+  var todaysTaskData = [];
+
   List<Widget> get screenList => [
     HomeScreen(homeData: homeData), // 👈 Always gets updated data
-    const TodaysTask(),
+    TodaysTask(tasks: todaysTaskData,),
     const AddTask(),
     const Profile(),
   ];
@@ -48,6 +50,7 @@ class _WrapperScreenState extends State<WrapperScreen> {
         homeData['inProgress'] = response['progress_tasks'];
         homeData['taskGroup'] = response['task_groups'];
         homeData['overAllProgress'] = response['overall_progress'];
+        todaysTaskData = response['todays_tasks'];
         homeData['isLoading'] = false;
       });
     }

@@ -15,7 +15,6 @@ Widget customIcon({icon, color, size, vertical, horizantal}) {
           )));
 }
 
-// const Color.fromARGB(98, 211, 207, 207)
 
 
 
