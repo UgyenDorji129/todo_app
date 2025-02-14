@@ -37,7 +37,7 @@ Widget customDatePicker({
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.calendar_today, color: Colors.pinkAccent, size: 30.0),
+          Icon(Icons.calendar_today, color: Colors.pinkAccent, size: 25.0),
           const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

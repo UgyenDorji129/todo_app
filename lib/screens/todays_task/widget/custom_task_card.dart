@@ -28,8 +28,7 @@ Widget customTaskCard({context, task}) {
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width *
-                    0.6,
+                width: MediaQuery.of(context).size.width * 0.6,
                 child: Text(
                   task["description"],
                   maxLines: 1,
@@ -66,10 +65,18 @@ Widget customTaskCard({context, task}) {
                   horizantal: 3.0),
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.amber[50]),
+                  borderRadius: BorderRadius.circular(20),
+                  color: task["status"] == "Done"
+                      ? Colors.purple[100]
+                      : task["status"] == "In Progress"
+                          ? Colors.green[100]
+                          : Colors.pink[100],
+                ),
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-                child: Text(task["status"]),
+                child: Text(
+                  task["status"],
+                  
+                ),
               )
             ],
           )

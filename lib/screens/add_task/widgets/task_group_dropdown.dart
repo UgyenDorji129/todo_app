@@ -44,7 +44,7 @@ Widget taskGropDropDown({context, dropdownItems, buldOption, selectedValue}) {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            customIcon(icon: Icons.work, color: Colors.pinkAccent, size: 45.0),
+            customIcon(icon: Icons.work, color: Colors.pinkAccent, size: 30.0, vertical: 5.0, horizantal: 5.0),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

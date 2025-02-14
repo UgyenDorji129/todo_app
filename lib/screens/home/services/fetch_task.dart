@@ -3,9 +3,9 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:todo_app/screens/home/models/progress_task_model.dart';
 import 'package:todo_app/screens/home/models/task_group_model.dart';
-import 'package:todo_app/screens/todays_task/models/today_task_model.dart';
 
 class FetchTaskService {
   static final List<Map<String, dynamic>> taskCategories = [
@@ -117,16 +117,32 @@ class FetchTaskService {
           );
         }).toList();
 
-        List<TodayTaskModel> todaysTasks = allTasks.take(10).map((task) {
-          return TodayTaskModel(
-            category: task.cardTitle,
-            description: task.cardDetail,
-            icon: task.icon,
-            status: task.progressIndicatorValue == 1.0 ? "Done" : "Pending",
-            time: "${today.hour}:${today.minute} AM",
-            date: "${today.day}/${today.month}/${today.year}",
-          );
-        }).toList();
+        List<Map<String, dynamic>> todaysTasks = [];
+        for (int i = 0; i < 10; i++) {
+          var task = allTasks[_random.nextInt(allTasks.length)];
+          int randomHour = _random.nextInt(12) + 1;
+          int randomMinute = _random.nextInt(60);
+          String period = _random.nextBool() ? "AM" : "PM";
+          String formattedTime = "$randomHour:${randomMinute.toString().padLeft(2, '0')} $period";
+
+          String status;
+          if (i < 3) {
+            status = "Done";
+          } else if (i < 5) {
+            status = "Pending";
+          } else {
+            status = "In Progress";
+          }
+
+          todaysTasks.add({
+            "category": task.cardTitle,
+            "description": task.cardDetail,
+            "icon": task.icon,
+            "status": status,
+            "time": formattedTime,
+            "date": "${today.day}/${today.month}/${today.year}",
+          });
+        }
 
         result = {
           'status': true,
@@ -134,7 +150,7 @@ class FetchTaskService {
           'progress_tasks': progressTasks.map((task) => task.toJson()).toList(),
           'task_groups': taskGroupsList.map((group) => group.toJson()).toList(),
           'overall_progress': overallProgress,
-          'todays_tasks': todaysTasks.map((task) => task.toJson()).toList(),
+          'todays_tasks': todaysTasks,
         };
       } else {
         String message = '${json.decode(response.body)['message']}.';
