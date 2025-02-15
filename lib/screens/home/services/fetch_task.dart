@@ -3,52 +3,11 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+import 'package:todo_app/constants/constants.dart';
 import 'package:todo_app/screens/home/models/progress_task_model.dart';
 import 'package:todo_app/screens/home/models/task_group_model.dart';
 
 class FetchTaskService {
-  static final List<Map<String, dynamic>> taskCategories = [
-    {
-      "title": "Office Project",
-      "icon": Icons.work_history_sharp,
-      "cardColor": Colors.blue[100],
-      "iconColor": Colors.red[400]
-    },
-    {
-      "title": "Personal Project",
-      "icon": Icons.person_pin,
-      "cardColor": Colors.green[100],
-      "iconColor": Colors.pink[400]
-    },
-    {
-      "title": "Group Project",
-      "icon": Icons.group,
-      "cardColor": Colors.purple[100],
-      "iconColor": Colors.green[400]
-    },
-    {
-      "title": "Marketing Project",
-      "icon": Icons.backup_sharp,
-      "cardColor": Colors.teal[100],
-      "iconColor": Colors.purpleAccent[400]
-    },
-    {
-      "title": "Skill Development",
-      "icon": Icons.lightbulb,
-      "cardColor": Colors.indigo[100],
-      "iconColor": Colors.blue[400]
-    },
-  ];
-
-  static final List<Color> progressIndicatorColors = [
-    Colors.green,
-    Colors.pink,
-    Colors.purple,
-    Colors.blue,
-    Colors.red,
-  ];
-
   static final Random _random = Random();
 
   static Color _getDistinctColor(List<Color> choices, {Color? avoidColor}) {
@@ -59,7 +18,8 @@ class FetchTaskService {
     return selected;
   }
 
-  static Color prevProgressIndicatorColor = _getDistinctColor(progressIndicatorColors);
+  static Color prevProgressIndicatorColor =
+      _getDistinctColor(progressIndicatorColors);
 
   static Future<Map<String, dynamic>> fetchTasks() async {
     Map<String, dynamic> result;
@@ -73,10 +33,14 @@ class FetchTaskService {
 
         List<TaskCardModel> allTasks = rawTasks.map((item) {
           bool isCompleted = item['completed'];
-          double progressValue = isCompleted ? 1.0 : (_random.nextBool() ? 0.75 : 0.4);
+          double progressValue =
+              isCompleted ? 1.0 : (_random.nextBool() ? 0.75 : 0.4);
 
-          var selectedCategory = taskCategories[_random.nextInt(taskCategories.length)];
-          Color progressIndicatorColor = _getDistinctColor(progressIndicatorColors, avoidColor: prevProgressIndicatorColor);
+          var selectedCategory =
+              taskCategories[_random.nextInt(taskCategories.length)];
+          Color progressIndicatorColor = _getDistinctColor(
+              progressIndicatorColors,
+              avoidColor: prevProgressIndicatorColor);
           prevProgressIndicatorColor = progressIndicatorColor;
 
           return TaskCardModel(
@@ -90,10 +54,15 @@ class FetchTaskService {
           );
         }).toList();
 
-        List<TaskCardModel> progressTasks =
-            allTasks.where((task) => task.progressIndicatorValue > 0.0 && task.progressIndicatorValue < 1.0).toList();
+        List<TaskCardModel> progressTasks = allTasks
+            .where((task) =>
+                task.progressIndicatorValue > 0.0 &&
+                task.progressIndicatorValue < 1.0)
+            .toList();
 
-        double totalProgress = allTasks.map((t) => t.progressIndicatorValue).reduce((a, b) => a + b);
+        double totalProgress = allTasks
+            .map((t) => t.progressIndicatorValue)
+            .reduce((a, b) => a + b);
         double overallProgress = (totalProgress / allTasks.length) * 100;
 
         Map<String, List<TaskCardModel>> groupedTasks = {};
@@ -102,11 +71,16 @@ class FetchTaskService {
         }
 
         List<TaskGroupModel> taskGroupsList = groupedTasks.entries.map((entry) {
-          var category = taskCategories.firstWhere((cat) => cat['title'] == entry.key);
-          Color bgColor = _getDistinctColor(progressIndicatorColors, avoidColor: category['iconColor']);
+          var category =
+              taskCategories.firstWhere((cat) => cat['title'] == entry.key);
+          Color bgColor = _getDistinctColor(progressIndicatorColors,
+              avoidColor: category['iconColor']);
           int numOfTasks = entry.value.length;
-          double progressValue =
-              (entry.value.map((t) => t.progressIndicatorValue).reduce((a, b) => a + b) / numOfTasks) * 100;
+          double progressValue = (entry.value
+                      .map((t) => t.progressIndicatorValue)
+                      .reduce((a, b) => a + b) /
+                  numOfTasks) *
+              100;
           return TaskGroupModel(
             icon: category['icon'],
             title: entry.key,
@@ -123,7 +97,8 @@ class FetchTaskService {
           int randomHour = _random.nextInt(12) + 1;
           int randomMinute = _random.nextInt(60);
           String period = _random.nextBool() ? "AM" : "PM";
-          String formattedTime = "$randomHour:${randomMinute.toString().padLeft(2, '0')} $period";
+          String formattedTime =
+              "$randomHour:${randomMinute.toString().padLeft(2, '0')} $period";
 
           String status;
           if (i < 3) {
