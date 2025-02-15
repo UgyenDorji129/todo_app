@@ -31,4 +31,16 @@ class SaveDetailService {
     }
     return true;
   }
+
+  void removeUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('id');
+    prefs.remove('username');
+    prefs.remove('email');
+    prefs.remove('firstName');
+    prefs.remove('lastName');
+    prefs.remove('gender');
+    prefs.remove('image');
+    prefs.remove('token');
+  }
 }
