@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:todo_app/global_widget/loading_widget.dart';
 import 'package:todo_app/screens/home/widgets/progress_card.dart';
@@ -16,8 +18,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) { 
-    print("Home Created");
-    print(widget.homeData);   
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10), // Optional: rounded corners
