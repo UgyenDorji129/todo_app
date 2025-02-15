@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:todo_app/constants/constants.dart';
 import 'package:todo_app/screens/add_task/add_task.dart';
 import 'package:todo_app/screens/add_task/widgets/add_task_appbar.dart';
 import 'package:todo_app/screens/home/home_screen.dart';
@@ -27,12 +30,66 @@ class _WrapperScreenState extends State<WrapperScreen> {
 
   var todaysTaskData = [];
 
+  void addTask({projectController, taskGroup}) {
+    if (projectController.text.isEmpty || taskGroup == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please enter a task and select a category")),
+      );
+      return;
+    }
+
+    final taskCategory = taskCategories.firstWhere(
+      (cat) => cat["title"] == taskGroup,
+    );
+
+    final newTask = {
+      "cardTitle": taskCategory["title"],
+      "cardDetail": projectController.text.trim(),
+      "iconColor": taskCategory["iconColor"],
+      "icon": taskCategory["icon"],
+      "progressIndicatorColor": Colors.blue, 
+      "progressIndicatorValue": 0.0, 
+      "cardColor": taskCategory["cardColor"],
+    };
+
+    if (!homeData.containsKey(taskCategory["title"])) {
+      homeData[taskCategory["title"]] = <Map<String, dynamic>>[];
+    }
+
+    (homeData[taskCategory["title"]] as List<Map<String, dynamic>>)
+        .add(newTask);
+
+    List<String> statusOptions = ["Done", "Pending", "In Progress"];
+    String randomStatus = statusOptions[Random().nextInt(statusOptions.length)];
+
+    final newTodayTask = {
+      "category": taskCategory["title"],
+      "description": projectController.text.trim(),
+      "icon": taskCategory["icon"],
+      "status": randomStatus,
+      "time":
+          "${Random().nextInt(12) + 1}:${(Random().nextInt(60)).toString().padLeft(2, '0')} ${Random().nextBool() ? "AM" : "PM"}",
+      "date": DateTime.now().toString().split(" ")[0],
+    };
+
+    todaysTaskData.add(newTodayTask);
+    projectController.clear();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Task Added Successfully!")),
+    );
+  }
+
   List<Widget> get screenList => [
-    HomeScreen(homeData: homeData), // 👈 Always gets updated data
-    TodaysTask(tasks: todaysTaskData,),
-    const AddTask(),
-    const Profile(),
-  ];
+        HomeScreen(homeData: homeData),
+        TodaysTask(
+          tasks: todaysTaskData,
+        ),
+        AddTask(
+          addTask : addTask
+        ),
+        const Profile(),
+      ];
 
   final appBarList = [
     homeAppBar,
@@ -40,12 +97,12 @@ class _WrapperScreenState extends State<WrapperScreen> {
     addTaskAppBar,
     todaysTaskAppBar
   ];
-  
+
   int currentIndex = 0;
 
   Future<void> fetchTaskList() async {
     var response = await FetchTaskService.fetchTasks();
-    if (response['status']){
+    if (response['status']) {
       setState(() {
         homeData['inProgress'] = response['progress_tasks'];
         homeData['taskGroup'] = response['task_groups'];
@@ -61,6 +118,8 @@ class _WrapperScreenState extends State<WrapperScreen> {
       currentIndex = index;
     });
   }
+
+  
 
   @override
   void initState() {
@@ -83,8 +142,7 @@ class _WrapperScreenState extends State<WrapperScreen> {
         switchTab: switchTab,
         currentIndex: currentIndex,
       ),
-      body: screenList[currentIndex], 
+      body: screenList[currentIndex],
     );
   }
 }
-

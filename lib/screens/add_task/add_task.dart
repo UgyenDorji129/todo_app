@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:todo_app/screens/add_task/widgets/add_task_botton.dart';
 import 'package:todo_app/screens/add_task/widgets/custom_date_picker.dart';
@@ -5,18 +7,25 @@ import 'package:todo_app/screens/add_task/widgets/custom_input_field.dart';
 import 'package:todo_app/screens/add_task/widgets/task_group_dropdown.dart';
 
 class AddTask extends StatefulWidget {
-  const AddTask({super.key});
+  var addTask;
+  AddTask({super.key, this.addTask});
 
   @override
   State<AddTask> createState() => _AddTaskState();
 }
 
 class _AddTaskState extends State<AddTask> {
-  var selectedValue = "Work";
+  var selectedValue = "Office Project";
   DateTime selectedStartDate = DateTime.now();
   DateTime selectedEndDate = DateTime.now();
 
-  final List<String> dropdownItems = ['Work', 'Personal', 'Shopping', 'Others'];
+  final List<String> dropdownItems = [
+    'Office Project',
+    'Personal Project',
+    'Group Project',
+    'Marketing Project',
+    'Skill Development'
+  ];
   TextEditingController projectController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
@@ -83,7 +92,11 @@ class _AddTaskState extends State<AddTask> {
                 });
               },
             ),
-            addTaskButton(context),
+            addTaskButton(
+                context: context,
+                projectController: projectController,
+                taskGroup: selectedValue,
+                addTask: widget.addTask),
             SizedBox(
               height: 10,
             )

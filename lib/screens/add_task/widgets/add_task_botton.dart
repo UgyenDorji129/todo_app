@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget addTaskButton(context) {
+Widget addTaskButton({context, projectController, taskGroup, addTask}) {
   return SizedBox(
     width: MediaQuery.of(context).size.width * 1,
     child: FilledButton(
@@ -8,6 +8,7 @@ Widget addTaskButton(context) {
           backgroundColor:
               WidgetStateProperty.all(Color.fromARGB(225, 101, 56, 233))),
       onPressed: () {
+        addTask(projectController: projectController, taskGroup: taskGroup);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
