@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget customFloatingActionButton() {
+Widget customFloatingActionButton({switchTab}) {
   return Container(
     decoration: BoxDecoration(
       shape: BoxShape.circle,
@@ -14,7 +14,9 @@ Widget customFloatingActionButton() {
       ],
     ),
     child: FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        switchTab(2);
+      },
       backgroundColor: Color.fromARGB(225, 101, 56, 233),
       shape: const CircleBorder(),
       child: const Icon(Icons.add, size: 28, color: Colors.white),

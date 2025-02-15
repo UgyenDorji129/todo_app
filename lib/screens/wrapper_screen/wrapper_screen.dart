@@ -144,7 +144,7 @@ class _WrapperScreenState extends State<WrapperScreen> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: isSuccess ? appBarList[currentIndex](context) : null,
-      floatingActionButton: isSuccess ? customFloatingActionButton() : null,
+      floatingActionButton: isSuccess ? customFloatingActionButton(switchTab: switchTab,) : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: isSuccess ? CustomBottomAppBar(
         switchTab: switchTab,
