@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/global_widget/loading_widget.dart';
+import 'package:todo_app/screens/error_screen/error_screen.dart';
 import 'package:todo_app/screens/welcome_page/widgets/welcome_button.dart';
 import 'package:todo_app/screens/welcome_page/widgets/welcome_image.dart';
 import 'package:todo_app/screens/welcome_page/widgets/welcome_title.dart';
@@ -15,6 +16,7 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   bool isLoading = false;
+  bool isSuccess = true;
 
   Future<void> loginUser(context) async {
     setState(() {
@@ -29,6 +31,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           .saveUser(res['data'].username, res['data'].token);
       Navigator.pushNamed(context, "/home");
     }
+    else{
+      setState(() {
+        isSuccess = false;
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -36,7 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
         body: isLoading
             ? loadingWidget()
-            : Container(
+            : isSuccess ? Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/background.png'),
@@ -72,6 +80,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     )
                   ],
                 ),
-              ));
+              ) : ErrorScreen());
   }
 }
