@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/constants/constants.dart';
 import 'package:todo_app/screens/add_task/add_task.dart';
 import 'package:todo_app/screens/add_task/widgets/add_task_appbar.dart';
+import 'package:todo_app/screens/error_screen/error_screen.dart';
 import 'package:todo_app/screens/home/home_screen.dart';
 import 'package:todo_app/screens/home/services/fetch_task.dart';
 import 'package:todo_app/screens/home/widgets/home_app_bar.dart';
@@ -27,7 +28,7 @@ class _WrapperScreenState extends State<WrapperScreen> {
     "overAllProgress": 0.0,
     "isLoading": false
   };
-
+  bool isSuccess = true;
   var todaysTaskData = [];
 
   void addTask({projectController, taskGroup}) {
@@ -98,16 +99,23 @@ class _WrapperScreenState extends State<WrapperScreen> {
     todaysTaskAppBar
   ];
 
+
   int currentIndex = 0;
 
   Future<void> fetchTaskList() async {
     var response = await FetchTaskService.fetchTasks();
-    if (response['status']) {
+    if (response['status'])  {
       setState(() {
         homeData['inProgress'] = response['progress_tasks'];
         homeData['taskGroup'] = response['task_groups'];
         homeData['overAllProgress'] = response['overall_progress'];
         todaysTaskData = response['todays_tasks'];
+        homeData['isLoading'] = false;
+      });
+    }
+    else{
+      setState(() {
+        isSuccess = false;
         homeData['isLoading'] = false;
       });
     }
@@ -135,14 +143,14 @@ class _WrapperScreenState extends State<WrapperScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      appBar: appBarList[currentIndex](context),
-      floatingActionButton: customFloatingActionButton(),
+      appBar: isSuccess ? appBarList[currentIndex](context) : null,
+      floatingActionButton: isSuccess ? customFloatingActionButton() : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CustomBottomAppBar(
+      bottomNavigationBar: isSuccess ? CustomBottomAppBar(
         switchTab: switchTab,
         currentIndex: currentIndex,
-      ),
-      body: screenList[currentIndex],
+      ) : null,
+      body: isSuccess ? screenList[currentIndex] : ErrorScreen(),
     );
   }
 }
